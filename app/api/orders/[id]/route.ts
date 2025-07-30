@@ -3,10 +3,13 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-export async function PUT(
-  request: NextRequest,
-context: { params: { id: string } }
-) {
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export async function PUT(request: NextRequest, context: Context) {
   const session = await getServerSession(authOptions);
 
   if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'SUPERADMIN')) {

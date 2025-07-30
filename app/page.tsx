@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import Fuse from "fuse.js";
 import { useCart } from "./context/CartContext";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 type Product = {
   id: string;
@@ -22,6 +22,11 @@ const cardVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+
+
+
+
+
 function ProductCard({
   product,
   onClick,
@@ -29,11 +34,35 @@ function ProductCard({
   product: Product;
   onClick?: () => void;
 }) {
+  const controls = useAnimation();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          controls.start("visible");
+          observer.disconnect(); // stop observing after reveal
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [controls]);
+
   return (
     <motion.div
+      ref={ref}
       className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 bg-gray-50"
       style={{ boxSizing: "border-box" }}
       variants={cardVariants}
+      initial="hidden"
+      animate={controls}
     >
       <div
         className="bg-white rounded-xl shadow hover:shadow-lg cursor-pointer transition"
@@ -60,6 +89,7 @@ function ProductCard({
     </motion.div>
   );
 }
+
 
 export default function HomePage() {
   const { searchQuery, category } = useCart();

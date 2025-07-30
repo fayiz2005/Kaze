@@ -3,23 +3,20 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: Request, context: { params: any }) {
+
   const session = await getServerSession(authOptions);
 
   if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'SUPERADMIN')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-
-  const { id } = params;
+  const { id } = context.params;
 
   try {
     const body = await request.json();
 
     const existingOrder = await prisma.order.findUnique({
-      
+
       where: { id },
     });
 

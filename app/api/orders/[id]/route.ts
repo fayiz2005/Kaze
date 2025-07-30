@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 
 export async function PUT(
   request: NextRequest,
-  context: { params: Record<string, string> }
+context: { params: { id: string } }
 ) {
   const session = await getServerSession(authOptions);
 

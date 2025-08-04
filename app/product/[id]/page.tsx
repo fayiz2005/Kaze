@@ -50,6 +50,22 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
         if (!res.ok) throw new Error("Failed to fetch product");
         const data: Product = await res.json();
         setProduct(data);
+         data.variants.sort((a, b) => {
+        // Handle standard sizes
+        const standardOrder = ["XS", "S", "M", "L", "XL", "XXL"];
+        if (a.sizeType === "STANDARD" && b.sizeType === "STANDARD") {
+          return standardOrder.indexOf(a.sizeValue) - standardOrder.indexOf(b.sizeValue);
+        }
+
+        // Handle waist sizes numerically
+        if (a.sizeType === "WAIST" && b.sizeType === "WAIST") {
+          return parseInt(a.sizeValue) - parseInt(b.sizeValue);
+        }
+
+        // Fallback to alphabetical sort
+        return a.sizeValue.localeCompare(b.sizeValue);
+      });
+
         setSelectedVariantIndex(null); // reset selected variant when product changes
         setQuantity(1);
       } catch {

@@ -108,6 +108,7 @@ export default function HomePage() {
         console.error("Product fetch failed:", err);
       })
       .finally(() => setLoading(false));
+      
   }, []);
 
   const filteredProducts = useMemo(() => {

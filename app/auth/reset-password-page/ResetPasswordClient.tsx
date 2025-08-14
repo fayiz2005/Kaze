@@ -45,7 +45,7 @@ export default function ResetPasswordClient() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
+    <div className="container max-w-md mx-auto py-10 px-4">
       <h1 className="text-2xl font-bold mb-4">Reset Password</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

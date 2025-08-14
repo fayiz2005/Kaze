@@ -28,7 +28,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto py-10">
+    <div className="container max-w-md mx-auto py-10 px-4">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
       <form onSubmit={handleLogin} className="space-y-4">
         <input

@@ -34,7 +34,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
 
   return (
-    <div className="max-w-md mx-auto py-10">
+    <div className="container max-w-md mx-auto py-10 px-4">
       <h1 className="text-2xl font-bold mb-4">Forgot Password</h1>
       {success ? (
         <p className="text-green-600">Check your email for a reset link.</p>
